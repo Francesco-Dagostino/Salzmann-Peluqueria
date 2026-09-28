@@ -2,18 +2,26 @@ import { ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { waLink } from '../config';
 
-// TODO: los captions son un placeholder — cambialos por el nombre real de la técnica
-// o dejalos vacíos ('') si preferís que las fotos no tengan texto encima.
+// Pares reales detectados por la ropa de cada clienta.
+// TODO: si el reemplazo de fotos no fue exactamente así, avisame para reacomodar.
+const FEATURED_PAIRS = [
+  { before: '/trabajos/trabajo-01.jpg', after: '/trabajos/trabajo-02.jpg' },
+  { before: '/trabajos/trabajo-03.jpg', after: '/trabajos/trabajo-04.jpg' },
+];
+
+// TODO: los captions son un placeholder — cambialos por el nombre real de la técnica,
+// o dejalos vacíos ('') si preferís que la foto no tenga texto encima.
+// trabajo-10 a 13 no las vi todavía, así que van sin caption hasta que me digas qué son.
 const WORKS = [
-  { image: '/trabajos/trabajo-01.jpg', caption: 'Coloración en canas' },
-  { image: '/trabajos/trabajo-02.jpg', caption: 'Ondas naturales' },
-  { image: '/trabajos/trabajo-03.jpg', caption: 'Movimiento y brillo' },
-  { image: '/trabajos/trabajo-04.jpg', caption: 'Antes y después: balayage' },
-  { image: '/trabajos/trabajo-05.jpg', caption: 'Antes y después: brillo intenso' },
-  { image: '/trabajos/trabajo-06.jpg', caption: 'Antes y después: rubio luminoso' },
-  { image: '/trabajos/trabajo-07.jpg', caption: 'Proceso completo de color' },
-  { image: '/trabajos/trabajo-08.jpg', caption: 'Resultado final' },
-  { image: '/trabajos/trabajo-09.jpg', caption: 'Luz y textura' },
+  { image: '/trabajos/trabajo-05.jpg', caption: 'Balayage rubio' },
+  { image: '/trabajos/trabajo-06.jpg', caption: 'Iluminación y movimiento' },
+  { image: '/trabajos/trabajo-07.jpg', caption: 'Brillo y luminosidad' },
+  { image: '/trabajos/trabajo-08.jpg', caption: 'Brillo y luminosidad' },
+  { image: '/trabajos/trabajo-09.jpg', caption: 'Flequillo con reflejos' },
+  { image: '/trabajos/trabajo-10.jpg', caption: '' },
+  { image: '/trabajos/trabajo-11.png', caption: '' },
+  { image: '/trabajos/trabajo-12.png', caption: '' },
+  { image: '/trabajos/trabajo-13.png', caption: '' },
 ];
 
 function TrabajosPage() {
@@ -36,6 +44,30 @@ function TrabajosPage() {
         </div>
       </section>
 
+      {/* Pares destacados: antes / después */}
+      <section className="max-w-5xl mx-auto px-6 md:px-10 pt-16 md:pt-24">
+        <p className="text-sm font-semibold uppercase tracking-widest text-rose mb-3">Antes y después</p>
+        <h2 className="text-3xl sm:text-4xl text-ink font-medium mb-10">
+          Transformaciones <span className="italic text-lilac">reales</span>
+        </h2>
+
+        <div className="grid gap-8">
+          {FEATURED_PAIRS.map((pair) => (
+            <div key={pair.before} className="grid sm:grid-cols-2 gap-4">
+              <figure className="relative rounded-3xl overflow-hidden bg-lilac/10">
+                <img src={pair.before} alt="Antes del servicio" className="w-full h-full object-cover" />
+                <span className="absolute top-4 left-4 bg-ink/80 text-white text-xs font-medium tracking-wide px-3 py-1.5 rounded-full">Antes</span>
+              </figure>
+              <figure className="relative rounded-3xl overflow-hidden bg-lilac/10">
+                <img src={pair.after} alt="Después del servicio" className="w-full h-full object-cover" />
+                <span className="absolute top-4 left-4 bg-ink/80 text-white text-xs font-medium tracking-wide px-3 py-1.5 rounded-full">Después</span>
+              </figure>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Galería general */}
       <section className="max-w-6xl mx-auto px-6 md:px-10 py-16 md:py-24">
         <div className="columns-2 sm:columns-3 gap-4 [column-fill:_balance]">
           {WORKS.map(({ image, caption }, index) => (
@@ -46,7 +78,7 @@ function TrabajosPage() {
               <img
                 src={image}
                 alt={caption || 'Trabajo realizado en Salzmann Peluquería'}
-                loading={index < 4 ? 'eager' : 'lazy'}
+                loading={index < 2 ? 'eager' : 'lazy'}
                 className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105"
               />
 
