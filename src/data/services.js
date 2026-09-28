@@ -62,7 +62,7 @@ export const SERVICES = [
     title: 'Reflejos',
     description: 'Iluminación y reflejos para darle dimensión y luminosidad al cabello.',
     duration: 'Duración aprox. 3 h',
-    image: '/reflejos.jpg',
+    image: '/reflejos.jpeg',
     fullDescription:
       'Creamos reflejos personalizados para aportar luz, movimiento y dimensión respetando tu tono natural.',
     steps: [
@@ -111,7 +111,7 @@ export const SERVICES = [
     title: 'Botox capilar',
     description: 'Tratamiento intensivo para recuperar suavidad, brillo y manejabilidad.',
     duration: 'Duración aprox. 2 h',
-    image: '/botox.jpg',
+    image: '/botox.jpeg',
     fullDescription:
       'Tratamiento reparador que ayuda a mejorar la apariencia del cabello, reducir el frizz y devolverle suavidad y brillo.',
     steps: [
