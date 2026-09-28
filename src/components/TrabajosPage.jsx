@@ -1,28 +1,81 @@
+import { useEffect, useState } from 'react';
 import { ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { waLink } from '../config';
 
-// Pares reales detectados por la ropa de cada clienta.
-// TODO: si el reemplazo de fotos no fue exactamente así, avisame para reacomodar.
+// Cada clienta puede tener varias fotos de "antes" y/o "después" (distintos ángulos).
+// Confirmado por vos:
+// - Clienta 1 (blusón floral): antes = 01, después = 02/03/04
+// - Clienta 2: antes = 05/06, después = 07/08
 const FEATURED_PAIRS = [
-  { before: '/trabajos/trabajo-01.jpg', after: '/trabajos/trabajo-02.jpg' },
-  { before: '/trabajos/trabajo-03.jpg', after: '/trabajos/trabajo-04.jpg' },
+  {
+    before: ['/trabajos/trabajo-01.jpg'],
+    after: ['/trabajos/trabajo-02.jpg', '/trabajos/trabajo-03.jpg', '/trabajos/trabajo-04.jpg'],
+  },
+  {
+    before: ['/trabajos/trabajo-05.jpg', '/trabajos/trabajo-06.jpg'],
+    after: ['/trabajos/trabajo-07.jpg', '/trabajos/trabajo-08.jpg'],
+  },
+  {
+    // TODO: asumí .jpg para trabajo-14 ya que no la vi todavía — si la guardaste con otra
+    // extensión (.png, .jpeg), cambiala acá para que coincida con el archivo real.
+    before: ['/trabajos/trabajo-14.png'],
+    after: ['/trabajos/trabajo-11.png', '/trabajos/trabajo-13.png'],
+  },
 ];
 
 // TODO: los captions son un placeholder — cambialos por el nombre real de la técnica,
 // o dejalos vacíos ('') si preferís que la foto no tenga texto encima.
-// trabajo-10 a 13 no las vi todavía, así que van sin caption hasta que me digas qué son.
+// trabajo-10 y 12 no las vi todavía, así que van sin caption hasta que me digas qué son.
 const WORKS = [
-  { image: '/trabajos/trabajo-05.jpg', caption: 'Balayage rubio' },
-  { image: '/trabajos/trabajo-06.jpg', caption: 'Iluminación y movimiento' },
-  { image: '/trabajos/trabajo-07.jpg', caption: 'Brillo y luminosidad' },
-  { image: '/trabajos/trabajo-08.jpg', caption: 'Brillo y luminosidad' },
   { image: '/trabajos/trabajo-09.jpg', caption: 'Flequillo con reflejos' },
   { image: '/trabajos/trabajo-10.jpg', caption: '' },
-  { image: '/trabajos/trabajo-11.png', caption: '' },
   { image: '/trabajos/trabajo-12.png', caption: '' },
-  { image: '/trabajos/trabajo-13.png', caption: '' },
 ];
+
+function PhotoSlide({ images, label }) {
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    if (images.length <= 1) return undefined;
+    const id = setInterval(() => {
+      setIndex((i) => (i + 1) % images.length);
+    }, 2800);
+    return () => clearInterval(id);
+  }, [images.length]);
+
+  return (
+    <figure className="relative aspect-[3/4] rounded-3xl overflow-hidden bg-lilac/10">
+      {images.map((src, i) => (
+        <img
+          key={src}
+          src={src}
+          alt={`${label} del servicio${images.length > 1 ? ', otro ángulo' : ''}`}
+          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${
+            i === index ? 'opacity-100' : 'opacity-0'
+          }`}
+        />
+      ))}
+
+      <span className="absolute top-4 left-4 z-10 bg-ink/80 text-white text-xs font-medium tracking-wide px-3 py-1.5 rounded-full">
+        {label}
+      </span>
+
+      {images.length > 1 && (
+        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-1.5">
+          {images.map((_, i) => (
+            <span
+              key={i}
+              className={`h-1.5 rounded-full transition-all duration-300 ${
+                i === index ? 'w-5 bg-white' : 'w-1.5 bg-white/50'
+              }`}
+            />
+          ))}
+        </div>
+      )}
+    </figure>
+  );
+}
 
 function TrabajosPage() {
   return (
@@ -44,24 +97,18 @@ function TrabajosPage() {
         </div>
       </section>
 
-      {/* Pares destacados: antes / después */}
+      {/* Pares destacados: antes / después, cada uno con sus propios ángulos rotando */}
       <section className="max-w-5xl mx-auto px-6 md:px-10 pt-16 md:pt-24">
         <p className="text-sm font-semibold uppercase tracking-widest text-rose mb-3">Antes y después</p>
         <h2 className="text-3xl sm:text-4xl text-ink font-medium mb-10">
           Transformaciones <span className="italic text-lilac">reales</span>
         </h2>
 
-        <div className="grid gap-8">
-          {FEATURED_PAIRS.map((pair) => (
-            <div key={pair.before} className="grid sm:grid-cols-2 gap-4">
-              <figure className="relative rounded-3xl overflow-hidden bg-lilac/10">
-                <img src={pair.before} alt="Antes del servicio" className="w-full h-full object-cover" />
-                <span className="absolute top-4 left-4 bg-ink/80 text-white text-xs font-medium tracking-wide px-3 py-1.5 rounded-full">Antes</span>
-              </figure>
-              <figure className="relative rounded-3xl overflow-hidden bg-lilac/10">
-                <img src={pair.after} alt="Después del servicio" className="w-full h-full object-cover" />
-                <span className="absolute top-4 left-4 bg-ink/80 text-white text-xs font-medium tracking-wide px-3 py-1.5 rounded-full">Después</span>
-              </figure>
+        <div className="grid gap-10">
+          {FEATURED_PAIRS.map((pair, index) => (
+            <div key={index} className="grid sm:grid-cols-2 gap-4">
+              <PhotoSlide images={pair.before} label="Antes" />
+              <PhotoSlide images={pair.after} label="Después" />
             </div>
           ))}
         </div>

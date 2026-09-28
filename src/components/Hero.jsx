@@ -39,9 +39,9 @@ function Hero() {
             <p className="font-display italic text-lg sm:text-xl text-rose mb-4">Peluquería Salzmann</p>
 
             <h1 className="text-4xl sm:text-5xl md:text-7xl leading-[1.1] md:leading-[1.02] text-white font-medium">
-              El salón de tu barrio,
+              Una historia de pasión,
               <br />
-              <span className="italic text-lilac-light">con oficio de grande.</span>
+              <span className="italic text-lilac-light">dedicada a tu belleza.</span>
             </h1>
 
             {/*<p className="mt-6 md:mt-7 text-lg sm:text-xl text-white/85 max-w-md leading-relaxed">
