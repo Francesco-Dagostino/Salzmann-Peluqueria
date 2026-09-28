@@ -10,11 +10,20 @@ import WhatsAppButton from './components/WhatsAppButton';
 import OurJourney from './components/OurJourney';
 import ServicesPage from './components/ServicesPage';
 import TrabajosPage from './components/TrabajosPage';
+import NotFoundPage from './components/NotFoundPage';
+
+const PAGE_TITLES = {
+  '/': 'Peluquería en San Carlos, Santa Fe | Salzmann Peluquería',
+  '/servicios': 'Cortes, color y alisados en San Carlos | Salzmann Peluquería',
+  '/trabajos': 'Trabajos de peluquería en San Carlos | Salzmann Peluquería',
+};
 
 function ScrollToRoute() {
   const { pathname, hash } = useLocation();
 
   useEffect(() => {
+    document.title = PAGE_TITLES[pathname] ?? 'Página no encontrada | Salzmann Peluquería';
+
     const target = hash ? document.querySelector(hash) : null;
     if (target) {
       target.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -48,7 +57,7 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/servicios" element={<ServicesPage />} />
           <Route path="/trabajos" element={<TrabajosPage />} />
-          <Route path="*" element={<HomePage />} />
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
         <Footer />
         <WhatsAppButton />
