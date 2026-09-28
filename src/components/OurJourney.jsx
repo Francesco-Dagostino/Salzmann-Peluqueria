@@ -6,7 +6,8 @@ const STOPS = [
     title: 'Donde todo empezó',
     description:
       'Me animé a dar un gran paso y decidí abrir mi propio espacio "Salzmann Peluquería", comenzando en un pequeño lugar dentro de mi casa. Allí transcurrieron unos años llenos de aprendizaje, trabajo y muchísimos momentos especiales.',
-    image: '/recorrido/local-2013.jpg',
+    image: '/recorrido/2do.png',
+    image2: '/recorrido/3era.png',
     alt: 'Primer local de Salzmann Peluquería',
   },
   {
@@ -14,8 +15,7 @@ const STOPS = [
     title: 'Gran Cambio',
     description:
       'Llegó otro gran cambio: decidí trasladar la peluquería a un local más céntrico, dando un nuevo paso en este camino que tanto amo.',
-    image: '/recorrido/2do.png',
-    image2: '/recorrido/3era.png',
+    image: '/recorrido/local-2013.jpg',
     alt: 'Primer local de Salzmann Peluquería',
   },
   {
